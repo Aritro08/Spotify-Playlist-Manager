@@ -3,7 +3,12 @@
     <div class="col-md-12">
       <form>
         <div class="form-group">
-          <input type="text" name="searchQuery" (keyup)="runSearch()" placeholder="Search for tracks, albums or playlists" class="form-control" [(ngModel)]="searchQuery">
+          <input type="text"
+                name="searchQuery"
+                (keyup)="runSearch()"
+                placeholder="Search for tracks, albums or playlists"
+                class="form-control"
+                [(ngModel)]="searchQuery">
         </div>
       </form>
     </div>
