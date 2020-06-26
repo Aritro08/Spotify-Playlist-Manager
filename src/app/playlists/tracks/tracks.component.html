@@ -1,0 +1,19 @@
+<h3 class="header">{{ PlName }}</h3>
+<table class="table table-dark" *ngIf='tracks'>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Album</th>
+      <th scope="col">Artist</th>
+      <th scope="col">Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor='let track of tracks' class="clickable">
+      <td>{{ track.name }}</td>
+      <td>{{ track.album }}</td>
+      <td>{{ track.artists }}</td>
+      <td>{{ track.duration }}</td>
+    </tr>
+  </tbody>
+</table>

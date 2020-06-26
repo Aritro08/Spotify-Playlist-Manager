@@ -1,0 +1,12 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/playlists">Playlist App</a>
+    <div class="justify-content-end">
+      <div class="navbar-nav">
+        <a class="btn btn-outline-light" href="http://localhost:3000/login" *ngIf='navElem == 0'>Login</a>
+        <a class="btn btn-outline-light" routerLink="/search" *ngIf='navElem == 1'>Search</a>
+        <!-- <a class="nav-item nav-link">Logged in as {{userName}}</a> -->
+      </div>
+    </div>
+  </div>
+</nav>

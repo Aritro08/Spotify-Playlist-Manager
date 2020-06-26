@@ -1,0 +1,33 @@
+.list-group-item{
+  height: 100px;
+  margin: 3px;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #e9ecef;
+}
+.img{
+  max-width: 100px;
+  max-height: 100%;
+  float: right;
+}
+.left{
+  max-width: 200px;
+  margin: 15px;
+  float: left;
+  display: block;
+}
+.playlists{
+  background-color: #343a40;
+  margin: 15px;
+  border-radius: 5px;
+  padding-bottom: 20px;
+  height: 100%;
+}
+.header{
+  font-weight: normal;
+  font-size: 24px;
+  margin: inherit;
+  color: #e9ecef;
+}
+

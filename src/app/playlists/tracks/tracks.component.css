@@ -1,0 +1,23 @@
+ul {
+  list-style-type: none;
+  padding: 5px;
+}
+.header{
+  font-weight: normal;
+  font-size: 24px;
+  margin: 15px;
+  color: #e9ecef;
+}
+h5{
+  color: #e9ecef;
+  font-weight: normal;
+}
+.list-group-item {
+  background-color: transparent;
+}
+.thead-light{
+  border-radius: 5px;
+}
+.clickable {
+  cursor: pointer;
+}
