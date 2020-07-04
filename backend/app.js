@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const querystring = require('query-string');
 const cors = require('cors');
+const { combineLatest } = require('rxjs');
 const axios = require('axios').default;
 const app = express();
 
@@ -11,8 +12,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 const clientId = '5b07a8e4896f49d5b8ebec1da157fa4c';
 const clientSecret = '6600e1f4a60646c4a04acff3b175885b';
 const redirectUri = 'http://localhost:3000/callback';
-const deviceId = '70d6e48f660baffc40f3b25f7a1ae2b366be9731';
-const scope = 'user-follow-read user-read-recently-played user-library-read user-read-playback-state user-library-modify user-read-currently-playing user-modify-playback-state';
+// const deviceId = '70d6e48f660baffc40f3b25f7a1ae2b366be9731';
+const scope = 'user-follow-read user-read-recently-played user-library-read user-read-playback-state user-library-modify user-read-currently-playing user-modify-playback-state playlist-modify-public playlist-modify-private';
 
 let tokenData = null;
 let userData = null;
@@ -80,8 +81,10 @@ app.get('/callback', (req, res, next) => {
 
 app.get('/playlists/init', (req, res, next) => {
   res.json({
-    tokenData: tokenData,
-    userData: userData,
+    accessToken: tokenData.accessToken,
+    expiresIn: tokenData.expiresIn,
+    userName: userData.userName,
+    userId: userData.userId
   });
 });
 
@@ -95,12 +98,12 @@ app.get('/playlists/playlist', (req, res, next) => {
     }).then(trackData => {
       let playlists = trackData.data.items;
       playlists = playlists.map(elem => {
-        return elem = {
-          id: elem.id,
-          name: elem.name,
-          tracks: elem.tracks.total,
-          image: elem.images[1].url
-        }
+          return elem = {
+            id: elem.id,
+            name: elem.name,
+            tracks: elem.tracks.total,
+            image: elem.images[0].url
+          }
       });
       res.json({
         playlistsData: playlists
@@ -127,6 +130,7 @@ app.get('/playlists/playlist/:id', (req, res, next) => {
         let mins = durObj.getUTCMinutes();
         let secs = durObj.getUTCSeconds();
         return elem = {
+          id: elem.track.id,
           name: elem.track.name,
           album: elem.track.album.name,
           artists: elem.track.artists.map(elem => elem.name),
@@ -140,6 +144,118 @@ app.get('/playlists/playlist/:id', (req, res, next) => {
     }).catch(err => {
       console.log(err);
       console.log('Tracks could not be fetched.');
+    });
+  }
+});
+
+app.post('/playlists/playlist/new', (req, res, next) => {
+  const playlistName = req.body.name;
+  if(userData.userId && tokenData.accessToken) {
+    axios({
+      method: 'post',
+      url: 'https://api.spotify.com/v1/users/' + userData.userId + '/playlists',
+      headers: { 'Authorization': 'Bearer ' + tokenData.accessToken, 'Content-Type': 'application/json' },
+      data: {
+        name: playlistName
+      }
+    }).then(resData => {
+      // console.log(resData.data.id);
+      res.json({
+        playlistId: resData.data.id
+      });
+    }).catch(err => {
+      console.log(err);
+      console.log('Playlist could not be created.');
+    });
+  }
+
+})
+
+app.post('/playlists/playlist/:id', (req, res, next) => {
+  const playlistId = req.params.id;
+  const trackUri = req.body.trackUri;
+  axios({
+    method: 'post',
+    url: 'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+    headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
+    params: {
+      uris: trackUri
+    }
+  }).then(resData => {
+    res.status(200).send({
+      message: 'Track added.'
+    });
+  }).catch(err => {
+    console.log(err);
+    console.log('Track could not be added.');
+  });
+});
+
+app.delete('/playlists/playlist/:id/:uri', (req, res, next) => {
+  const playlistId = req.params.id;
+  const trackUri = req.params.uri;
+  axios({
+    method: 'delete',
+    url: 'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+    headers: { 'Authorization': 'Bearer ' + tokenData.accessToken, 'Content-Type': 'application/json' },
+    data: {
+      tracks: [{uri: trackUri}]
+    }
+  }).then(resData => {
+    res.status(200).send({
+      message: 'Track deleted.'
+    })
+  }).catch(err => {
+    console.log(err);
+  });
+});
+
+
+app.get('/search/:query', (req, res, next) => {
+  const query = req.params.query;
+  if(tokenData.accessToken) {
+    axios({
+      method: 'get',
+      url: 'https://api.spotify.com/v1/search',
+      headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
+      params: {
+        q: query,
+        type: 'track,album',
+        limit: 20,
+        market: 'US'
+      }
+    }).then(queryData => {
+      let tracks = queryData.data.tracks.items;
+      tracks = tracks.map(elem => {
+        let durObj = new Date(elem.duration_ms);
+        let mins = durObj.getUTCMinutes();
+        let secs = durObj.getUTCSeconds();
+        return elem = {
+          id: elem.id,
+          name: elem.name,
+          album: elem.album.name,
+          artists: elem.artists.map(elem => elem.name),
+          duration: mins.toString() + ':' + secs.toString().padStart(2, '0'),
+          uri: elem.uri,
+        }
+      });
+      let albums = queryData.data.albums.items;
+      albums = albums.map(elem => {
+        return albums = {
+          name: elem.name,
+          id: elem.id,
+          uri: elem.uri,
+          artists: elem.artists.map(elem => elem.name),
+          image: elem.images[1].url
+        }
+      })
+      res.json({
+        queryTracks: tracks,
+        queryAlbums: albums
+      });
+    }).catch(err => {
+      console.log(err);
+      console.log('Search failed.');
     });
   }
 });

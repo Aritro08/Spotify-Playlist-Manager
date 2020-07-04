@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Playlists } from '../models/playlists.model';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PlaylistService } from './playlist.service';
 
 @Component({
@@ -24,8 +24,8 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onViewPlaylist(id: number, name: string) {
-    this.playlistService.fetchPlaylist(id, name);
+  onViewPlaylist(id: string, name: string, tracks: number) {
+    this.playlistService.fetchPlaylist(id, name, tracks);
   }
 
   ngOnDestroy() {

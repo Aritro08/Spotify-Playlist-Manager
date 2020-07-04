@@ -1,0 +1,9 @@
+<div class="background" (click)="onClose()"></div>
+<div class="content">
+  <h5>Enter playlist name: </h5>
+  <form class="form-group" #f = 'ngForm' (ngSubmit) = 'onSubmit(f)'>
+    <input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="name">
+      <button type="submit" class="btn btn-success">Create</button>
+      <button type="button" class="btn btn-danger right" (click)="onClose()">Close</button>
+  </form>
+</div>

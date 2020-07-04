@@ -2,12 +2,6 @@ ul {
   list-style-type: none;
   padding: 5px;
 }
-.header{
-  font-weight: normal;
-  font-size: 24px;
-  margin: 15px;
-  color: #e9ecef;
-}
 h5{
   color: #e9ecef;
   font-weight: normal;
@@ -18,6 +12,19 @@ h5{
 .thead-light{
   border-radius: 5px;
 }
-.clickable {
-  cursor: pointer;
+.nav-item{
+  display: flex;
+  float: right;
+  height: 30px;
+  width: 30px;
+}
+.nav-link{
+  padding:0 3px 30px 3px;
+}
+.row{
+  margin-left: 10px;
+}
+.del:hover {
+  background-color: #dc3545;
+  color: aliceblue;
 }

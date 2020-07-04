@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Track } from 'src/app/models/track.model';
 import { Subscription } from 'rxjs';
 import { PlaylistService } from '../playlist.service';
 import { PlayerService } from 'src/app/player.service';
+import { Playlists } from 'src/app/models/playlists.model';
 
 @Component({
   selector: 'app-tracks',
@@ -12,9 +13,14 @@ import { PlayerService } from 'src/app/player.service';
 export class TracksComponent implements OnInit, OnDestroy {
 
   tracks: Track[];
+  trackUri: string;
+  @Input() playlists: Playlists[];
   PlName: string;
+  PlId: string;
+  tracksNum: number;
   trackSub: Subscription;
-  PlNameSub: Subscription;
+  PlDetailSub: Subscription;
+  dispForm = false;
 
   constructor(private playlistService: PlaylistService, private playerService: PlayerService) { }
 
@@ -22,17 +28,36 @@ export class TracksComponent implements OnInit, OnDestroy {
     this.trackSub = this.playlistService.tracksSub.subscribe(tracks => {
       this.tracks = tracks;
     });
-    this.PlNameSub = this.playlistService.playlistNameSub.subscribe(name => {
-      this.PlName = name;
-    })
+    this.PlDetailSub = this.playlistService.playlistDetailSub.subscribe(res => {
+      this.PlName = res.name;
+      this.PlId = res.id;
+      this.tracksNum = res.tracks;
+    });
   }
 
-  playTrack(uri: string) {
-    this.playerService.playTrackUri(uri);
+  // playTrack(uri: string) {
+  //   this.playerService.playTrackUri(uri);
+  // }
+
+  addTrack(id: string, uri: string) {
+    this.playlistService.addTrackToPlaylist(id, uri);
+  }
+
+  delTrack(id: string, uri: string) {
+    this.playlistService.deleteTrack(id, uri, this.PlName, this.tracksNum-1);
+  }
+
+  showForm(uri: string){
+    this.dispForm = true;
+    this.trackUri = uri;
+  }
+
+  closeForm(){
+    this.dispForm = false;
   }
 
   ngOnDestroy() {
     this.trackSub.unsubscribe();
+    this.PlDetailSub.unsubscribe();
   }
-
 }

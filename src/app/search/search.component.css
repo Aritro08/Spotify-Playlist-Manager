@@ -2,7 +2,20 @@
   background-color: #343a40;
   margin: 10px;
   border-radius: 5px;
+  padding: 3px;
 }
 form{
   margin: 10px;
+}
+.scroll{
+  max-height: 550px;
+}
+.nav-item{
+  display: flex;
+  float: right;
+  height: 30px;
+  width: 30px;
+}
+.nav-link{
+  padding:0 3px 30px 3px;
 }

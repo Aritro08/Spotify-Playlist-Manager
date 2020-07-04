@@ -1,19 +1,21 @@
 <div class="container-fluid">
-  <div class="row" *ngIf='playlists'>
-    <div class="playlists col-md-3">
+  <div class="row playlists" *ngIf='playlists'>
+    <div class="vertical overflow-auto scroll col-md-3">
       <h3 class="header">Your Playlists:</h3>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor='let playlist of playlists' (click) = 'onViewPlaylist(playlist.id, playlist.name)'>
-          <div class="left">
-            <a><h5>{{ playlist.name }}</h5></a>
-            <p>Tracks: {{ playlist.tracks }}</p>
+        <li class="list-group-item" *ngFor='let playlist of playlists' (click) = 'onViewPlaylist(playlist.id, playlist.name, playlist.tracks)'>
+          <div class="content">
+            <div class="left">
+              <a><h5>{{ playlist.name }}</h5></a>
+              <p>Tracks: {{ playlist.tracks }}</p>
+            </div>
+            <a><span><img src='{{ playlist.image }}' class="img img-responsive" alt="{{ playlist.name }}"></span></a>
           </div>
-          <a><span><img src= '{{ playlist.image }}' class="img img-responsive" alt="{{ playlist.name }}"></span></a>
         </li>
       </ul>
     </div>
-    <div class="playlists col-md-6">
-      <app-tracks></app-tracks>
+    <div class="overflow-auto scroll col-md-6">
+      <app-tracks [playlists] = 'playlists'></app-tracks>
     </div>
   </div>
 </div>

@@ -8,6 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import { TracksComponent } from './playlists/tracks/tracks.component';
 import { SearchComponent } from './search/search.component';
+import { AlbumsComponent } from './albums/albums.component';
+import { DropdownDirective } from './dropdown.directive';
+import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { SearchComponent } from './search/search.component';
     HeaderComponent,
     PlaylistsComponent,
     TracksComponent,
-    SearchComponent
+    SearchComponent,
+    AlbumsComponent,
+    DropdownDirective,
+    CreatePlaylistComponent
   ],
   imports: [
     BrowserModule,

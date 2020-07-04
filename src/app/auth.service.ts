@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Token } from './models/token.model';
-import { User } from './models/user.model';
 import { Subject } from 'rxjs';
 
 @Injectable({'providedIn': 'root'})
@@ -14,10 +12,10 @@ export class AuthService {
   userNameSub = new Subject<string>();
 
   fetchInitData() {
-    this.http.get<{tokenData: Token, userData: User}>('http://localhost:3000/playlists/init').subscribe(res => {
+    this.http.get<{accessToken:string, expiresIn: number, userName: string, userId: string}>('http://localhost:3000/playlists/init').subscribe(res => {
       if(res) {
-        this.storeData(res.tokenData.accessToken, res.userData.userId);
-        this.userName = res.userData.userName.split(' ')[0];
+        this.storeData(res.accessToken, res.userId);
+        this.userName = res.userName.split(' ')[0];
         this.userNameSub.next(this.userName);
       }
     });

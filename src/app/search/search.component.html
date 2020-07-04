@@ -1,16 +1,56 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="search row">
     <div class="col-md-12">
       <form>
         <div class="form-group">
           <input type="text"
                 name="searchQuery"
                 (keyup)="runSearch()"
-                placeholder="Search for tracks, albums or playlists"
+                placeholder="Search for tracks or albums"
                 class="form-control"
                 [(ngModel)]="searchQuery">
         </div>
       </form>
+    </div>
+  </div>
+  <div class="row" *ngIf='searchQuery'>
+    <div class="overflow-auto vertical scroll col-md-6">
+      <h3 class="header">Tracks</h3>
+      <table class="table table-dark" *ngIf='tracks'>
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Album</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let track of tracks' class="clickable">
+            <td>{{ track.name }}</td>
+            <td>{{ track.album }}</td>
+            <td>{{ track.artists }}</td>
+            <td>{{ track.duration }}
+              <div class="nav-item dropleft" appDropdown>
+                <a role="button" class="nav-link btn btn-secondary" data-toggle="dropdown">
+                  <h4>+</h4>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" role="button">New Playlist</a>
+                  </li>
+                  <li *ngFor='let playlist of playlists'>
+                    <a class="dropdown-item" role="button" (click)='addTrack(playlist.id, track.uri)'>{{ playlist.name }}</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="overflow-auto scroll col-md-6">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

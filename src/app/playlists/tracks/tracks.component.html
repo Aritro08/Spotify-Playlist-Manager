@@ -1,3 +1,4 @@
+<app-create-playlist *ngIf="dispForm" (closeForm)='closeForm()' [trackUri] = 'trackUri'></app-create-playlist>
 <h3 class="header">{{ PlName }}</h3>
 <table class="table table-dark" *ngIf='tracks'>
   <thead class="thead-light">
@@ -13,7 +14,25 @@
       <td>{{ track.name }}</td>
       <td>{{ track.album }}</td>
       <td>{{ track.artists }}</td>
-      <td>{{ track.duration }}</td>
+      <td>{{ track.duration }}
+        <div class="nav-item dropleft" appDropdown>
+          <a role="button" class="nav-link btn btn-secondary" data-toggle="dropdown">
+            <h4>+</h4>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" role="button" (click)='showForm(track.uri)'>New Playlist</a>
+            </li>
+            <li *ngFor='let playlist of playlists'>
+              <a class="dropdown-item" role="button" *ngIf='playlist.name != PlName' (click)='addTrack(playlist.id, track.uri)'>{{ playlist.name }}</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li *ngIf='tracksNum>1'>
+              <a class="dropdown-item del" role="button" (click)='delTrack(PlId, track.uri)'>Delete</a>
+            </li>
+          </ul>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
