@@ -11,6 +11,7 @@ import { SearchComponent } from './search/search.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { DropdownDirective } from './dropdown.directive';
 import { CreatePlaylistComponent } from './create-playlist/create-playlist.component';
+import { AlbumTracksComponent } from './albums/album-tracks/album-tracks.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CreatePlaylistComponent } from './create-playlist/create-playlist.compo
     SearchComponent,
     AlbumsComponent,
     DropdownDirective,
-    CreatePlaylistComponent
+    CreatePlaylistComponent,
+    AlbumTracksComponent
   ],
   imports: [
     BrowserModule,

@@ -3,5 +3,6 @@ export interface Album {
   id: number,
   uri:string,
   artists: Array<string>,
-  image: string
+  image: string,
+  date: string
 }

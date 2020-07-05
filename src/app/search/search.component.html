@@ -1,3 +1,4 @@
+<app-create-playlist *ngIf="dispForm" (closeForm)='closeForm()' [trackUri] = 'trackUri'></app-create-playlist>
 <div class="container-fluid">
   <div class="search row">
     <div class="col-md-12">
@@ -37,7 +38,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" role="button">New Playlist</a>
+                    <a class="dropdown-item" role="button" (click) = 'showForm(track.uri)'>New Playlist</a>
                   </li>
                   <li *ngFor='let playlist of playlists'>
                     <a class="dropdown-item" role="button" (click)='addTrack(playlist.id, track.uri)'>{{ playlist.name }}</a>

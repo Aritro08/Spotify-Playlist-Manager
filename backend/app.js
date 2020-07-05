@@ -210,6 +210,34 @@ app.delete('/playlists/playlist/:id/:uri', (req, res, next) => {
   });
 });
 
+app.get('/search/album/:id', (req, res, next) => {
+  const albumId = req.params.id;
+  if(tokenData.accessToken) {
+    axios({
+      method: 'get',
+      url: 'https://api.spotify.com/v1/albums/' + albumId + '/tracks',
+      headers: { 'Authorization': 'Bearer ' + tokenData.accessToken }
+    }).then(resData => {
+      let tracks = resData.data.items;
+      tracks = tracks.map(elem => {
+        let durObj = new Date(elem.duration_ms);
+        let mins = durObj.getUTCMinutes();
+        let secs = durObj.getUTCSeconds();
+        return elem = {
+          name: elem.name,
+          id: elem.id,
+          uri: elem.uri,
+          duration: mins.toString() + ':' + secs.toString().padStart(2, '0')
+        }
+      });
+      res.json({
+        tracks: tracks
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+});
 
 app.get('/search/:query', (req, res, next) => {
   const query = req.params.query;
@@ -246,7 +274,8 @@ app.get('/search/:query', (req, res, next) => {
           id: elem.id,
           uri: elem.uri,
           artists: elem.artists.map(elem => elem.name),
-          image: elem.images[1].url
+          image: elem.images[1].url,
+          date: elem.release_date.slice(0,4)
         }
       })
       res.json({
@@ -259,6 +288,7 @@ app.get('/search/:query', (req, res, next) => {
     });
   }
 });
+
 
 // app.get('/playlists/playlist/track/:uri', (req, res, next) => {
 //   const trackUri = req.params.uri;

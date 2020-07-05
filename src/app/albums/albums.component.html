@@ -3,7 +3,8 @@
   <div class="col-md-6">
     <ul class="list-group">
       <li class="list-group-item" *ngFor='let album of albums1'>
-        <div class="row" (click)="showAlbumTracks(album.id)">
+      <!-- <a [routerLink] = "['album', album.id]"> -->
+        <div class="row" (click) = 'getTracks(album.id, album.name, album.artists, album.image, album.date)'>
           <div class="left col-md-6">
             <a><h6>{{ album.name.substring(0, 50) }}</h6></a>
             <p>Artist(s): {{ album.artists }}</p>
@@ -12,21 +13,24 @@
             <a><span><img src= '{{ album.image }}' class="img img-responsive" alt="{{ album.name }}"></span></a>
           </div>
         </div>
+      <!-- </a> -->
       </li>
     </ul>
   </div>
   <div class="col-md-6">
     <ul class="list-group">
       <li class="list-group-item" *ngFor='let album of albums2'>
-        <div class="row" (click)="showAlbumTracks(album.id)">
-          <div class="left col-md-6">
-            <a><h6>{{ album.name.substring(0, 50) }}</h6></a>
-            <p>Artist(s): {{ album.artists }}</p>
+        <!-- <a [routerLink] = "['album', album.id]"> -->
+          <div class="row" (click) = 'getTracks(album.id, album.name, album.artists, album.image, album.date)'>
+            <div class="left col-md-6">
+              <a><h6>{{ album.name.substring(0, 50) }}</h6></a>
+              <p>Artist(s): {{ album.artists }}</p>
+            </div>
+            <div class="col-md-6">
+              <a><span><img src= '{{ album.image }}' class="img img-responsive" alt="{{ album.name }}"></span></a>
+            </div>
           </div>
-          <div class="col-md-6">
-            <a><span><img src= '{{ album.image }}' class="img img-responsive" alt="{{ album.name }}"></span></a>
-          </div>
-        </div>
+        <!-- </a> -->
       </li>
     </ul>
   </div>

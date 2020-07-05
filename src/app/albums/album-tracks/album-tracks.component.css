@@ -1,0 +1,30 @@
+img{
+  border-radius: 5px;
+  width: 250px;
+}
+.row{
+  border-radius: 5px;
+  margin: 15px 0 15px 0;
+}
+.album-header{
+  font-weight: normal;
+  font-size: 27px;
+  color: #e9ecef;
+  display: block;
+}
+.album-info{
+  font-weight: normal;
+  font-size: 22px;
+  color: #e9ecef;
+  display: block;
+}
+.nav-item{
+  display: flex;
+  float: right;
+  height: 30px;
+  width: 30px;
+}
+.nav-link{
+  padding:0 3px 30px 3px;
+}
+

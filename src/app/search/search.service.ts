@@ -13,6 +13,7 @@ export class SearchService {
   albums: Album[];
   tracksSub = new Subject<Track[]>();
   albumsSub = new Subject<Album[]>();
+  querySub = new Subject<string>();
 
   searchQuery(query: string) {
     this.http.get<{queryTracks: Track[], queryAlbums: Album[]}>('http://localhost:3000/search/' + query).subscribe(resData => {
@@ -20,6 +21,7 @@ export class SearchService {
       this.albums = resData.queryAlbums;
       this.tracksSub.next(this.tracks.slice());
       this.albumsSub.next(this.albums.slice());
+      this.querySub.next(query);
     });
   }
 
