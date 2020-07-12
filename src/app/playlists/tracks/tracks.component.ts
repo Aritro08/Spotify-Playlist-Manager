@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Track } from 'src/app/models/track.model';
 import { Subscription } from 'rxjs';
 import { PlaylistService } from '../playlist.service';
@@ -21,6 +21,7 @@ export class TracksComponent implements OnInit, OnDestroy {
   trackSub: Subscription;
   PlDetailSub: Subscription;
   dispForm = false;
+  @Output() playTrack = new EventEmitter<{name: string, artists: Array<string>, image: string}>();
 
   constructor(private playlistService: PlaylistService, private playerService: PlayerService) { }
 
@@ -35,9 +36,11 @@ export class TracksComponent implements OnInit, OnDestroy {
     });
   }
 
-  // playTrack(uri: string) {
-  //   this.playerService.playTrackUri(uri);
-  // }
+  onPlayTrack(uri: string, image: string, name: string, artists: Array<string>) {
+    let deviceId = localStorage.getItem('deviceId');
+    this.playerService.playTrack(deviceId, uri);
+    this.playTrack.emit({name: name, artists: artists, image: image});
+  }
 
   addTrack(id: string, uri: string) {
     this.playlistService.addTrackToPlaylist(id, uri);

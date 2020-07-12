@@ -10,8 +10,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor='let track of tracks' class="clickable">
-      <td>{{ track.name }}</td>
+    <tr *ngFor='let track of tracks'>
+      <td class="clickable" (click) = 'onPlayTrack(track.uri, track.image, track.name, track.artists)'>{{ track.name }}</td>
       <td>{{ track.album }}</td>
       <td>{{ track.artists }}</td>
       <td>{{ track.duration }}

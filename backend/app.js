@@ -13,7 +13,18 @@ const clientId = '5b07a8e4896f49d5b8ebec1da157fa4c';
 const clientSecret = '6600e1f4a60646c4a04acff3b175885b';
 const redirectUri = 'http://localhost:3000/callback';
 // const deviceId = '70d6e48f660baffc40f3b25f7a1ae2b366be9731';
-const scope = 'user-follow-read user-read-recently-played user-library-read user-read-playback-state user-library-modify user-read-currently-playing user-modify-playback-state playlist-modify-public playlist-modify-private';
+const scope = `user-follow-read
+               user-read-recently-played
+               user-library-read
+               user-read-playback-state
+               user-library-modify
+               user-read-currently-playing
+               user-modify-playback-state
+               playlist-modify-public
+               playlist-modify-private
+               streaming
+               user-read-email
+               user-read-private`;
 
 let tokenData = null;
 let userData = null;
@@ -135,7 +146,8 @@ app.get('/playlists/playlist/:id', (req, res, next) => {
           album: elem.track.album.name,
           artists: elem.track.artists.map(elem => elem.name),
           duration: mins.toString() + ':' + secs.toString().padStart(2, '0'),
-          uri: elem.track.uri
+          uri: elem.track.uri,
+          image: elem.track.album.images[1].url
         }
       });
       res.json({
@@ -168,7 +180,6 @@ app.post('/playlists/playlist/new', (req, res, next) => {
       console.log('Playlist could not be created.');
     });
   }
-
 })
 
 app.post('/playlists/playlist/:id', (req, res, next) => {
@@ -205,6 +216,58 @@ app.delete('/playlists/playlist/:id/:uri', (req, res, next) => {
     res.status(200).send({
       message: 'Track deleted.'
     })
+  }).catch(err => {
+    console.log(err);
+  });
+});
+
+app.put('/playlists/playlist/track', (req, res, next) => {
+  const deviceId = req.body.deviceId;
+  const trackUri = req.body.uri;
+  axios({
+    method: 'put',
+    url: 'https://api.spotify.com/v1/me/player/play',
+    headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
+    params: {
+      device_id: deviceId
+    },
+    data: {
+      uris: [trackUri]
+    }
+  }).then(resData => {
+    console.log('Track playing.');
+  }).catch(err => {
+    console.log(err);
+  });
+});
+
+app.put('/playlists/playlist/track/pause', (req, res, next) => {
+  const deviceId = req.body.deviceId;
+  axios({
+    method: 'put',
+    url: 'https://api.spotify.com/v1/me/player/pause',
+    headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
+    params: {
+      device_id: deviceId
+    }
+  }).then(resData => {
+    console.log('Track paused.');
+  }).catch(err => {
+    console.log(err);
+  });
+});
+
+app.put('/playlists/playlist/track/resume', (req, res, next) => {
+  const deviceId = req.body.deviceId;
+  axios({
+    method: 'put',
+    url: 'https://api.spotify.com/v1/me/player/play',
+    headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
+    params: {
+      device_id: deviceId
+    }
+  }).then(resData => {
+    console.log('Track resumed.');
   }).catch(err => {
     console.log(err);
   });
@@ -290,33 +353,6 @@ app.get('/search/:query', (req, res, next) => {
 });
 
 
-// app.get('/playlists/playlist/track/:uri', (req, res, next) => {
-//   const trackUri = req.params.uri;
-//   if(tokenData.accessToken) {
-//     axios({
-//       method: 'get',
-//       url: 'https://api.spotify.com/v1/me/player',
-//       headers: { 'Authorization': 'Bearer ' + tokenData.accessToken }
-//     }).then(res => {
-//       console.log(res.device);
-//     }).catch(err => {
-//       console.log(err);
-//     })
-//     axios({
-//       method: 'put',
-//       url: 'https://api.spotify.com/v1/me/player/play',
-//       headers: { 'Authorization': 'Bearer ' + tokenData.accessToken },
-//       params: {
-//         // device_id : deviceId,
-//         context_uri: trackUri
-//       }
-//     }).then(res => {
-//       console.log('Track playing');
-//     }).catch(err => {
-//       console.log(err.reason);
-//     });
-//   }
-// });
 
 
 module.exports = app;

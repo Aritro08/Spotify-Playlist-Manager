@@ -15,7 +15,13 @@
       </ul>
     </div>
     <div class="overflow-auto scroll col-md-6">
-      <app-tracks [playlists] = 'playlists'></app-tracks>
+      <app-tracks [playlists] = 'playlists' (playTrack) = 'playTrack($event)'></app-tracks>
+    </div>
+    <div class="vertical-left col-md-3" *ngIf="player">
+      <img src="{{ imageUrl }}" class="track-img img-responsive" (click) = 'togglePlay()'>
+      <h5 class="track-content">{{ trackName }}</h5>
+      <p class="track-content">{{ trackArtists }}</p>
+      <button><i class="fa fa-pause" aria-hidden="true"></i></button>
     </div>
   </div>
 </div>
