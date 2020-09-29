@@ -14,11 +14,30 @@
 }
 .vertical{
   border-right: aliceblue 1px solid;
+  margin: 10px 0 10px 0;
 }
 .clickable {
   cursor: pointer;
 }
 .vertical-left{
   border-left: aliceblue 1px solid;
+  margin: 10px 0 10px 0;
+}
+.dropdown-menu{
+  max-height: 170px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 

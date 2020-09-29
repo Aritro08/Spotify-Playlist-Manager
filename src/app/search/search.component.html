@@ -1,4 +1,5 @@
 <app-create-playlist *ngIf="dispForm" (closeForm)='closeForm()' [trackUri] = 'trackUri'></app-create-playlist>
+<!-- <app-player-panel [trackDetail]="trackDetail"></app-player-panel> -->
 <div class="container-fluid">
   <div class="search row">
     <div class="col-md-12">
@@ -15,7 +16,7 @@
     </div>
   </div>
   <div class="row" *ngIf='searchQuery'>
-    <div class="overflow-auto vertical scroll col-md-6">
+    <div class="overflow-auto scroll col-md-6">
       <h3 class="header">Tracks</h3>
       <table class="table table-dark" *ngIf='tracks'>
         <thead class="thead-light">
@@ -27,8 +28,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let track of tracks' class="clickable">
-            <td>{{ track.name }}</td>
+          <tr *ngFor='let track of tracks'>
+            <td class="clickable" (click) = 'onPlayTrack(track.uri, track.image, track.name, track.artists)'>{{ track.name }}</td>
             <td>{{ track.album }}</td>
             <td>{{ track.artists }}</td>
             <td>{{ track.duration }}
@@ -36,7 +37,7 @@
                 <a role="button" class="nav-link btn btn-secondary" data-toggle="dropdown">
                   <h4>+</h4>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu overflow-auto">
                   <li>
                     <a class="dropdown-item" role="button" (click) = 'showForm(track.uri)'>New Playlist</a>
                   </li>
@@ -55,3 +56,4 @@
     </div>
   </div>
 </div>
+

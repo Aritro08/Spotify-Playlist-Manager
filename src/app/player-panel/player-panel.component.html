@@ -1,0 +1,12 @@
+<ng-sidebar-container style="height: 10vh;">
+
+  <ng-sidebar [(opened)]="open" position="left" [closeOnClickOutside]="true">
+    <h1>Documentation</h1>
+    <button class="btn btn-primary" (click)="toggle()"><h5><</h5></button>
+  </ng-sidebar>
+
+  <div ng-sidebar-content>
+    <button class="btn btn-primary" (click)="toggle()"><h5>></h5></button>
+  </div>
+
+</ng-sidebar-container>
