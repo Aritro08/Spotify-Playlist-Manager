@@ -9,10 +9,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const clientId = '5b07a8e4896f49d5b8ebec1da157fa4c';
-const clientSecret = '6600e1f4a60646c4a04acff3b175885b';
-const redirectUri = 'http://localhost:3000/callback';
-// const deviceId = '70d6e48f660baffc40f3b25f7a1ae2b366be9731';
+const clientId = 'ADD SPOTIFY CLIENT ID';
+const clientSecret = 'ADD CLIENT SECRET';
+const redirectUri = 'ADD REDIRECT PATH';
+
 const scope = `user-follow-read
                user-read-recently-played
                user-library-read
