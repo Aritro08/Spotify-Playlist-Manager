@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  clientID: '5b07a8e4896f49d5b8ebec1da157fa4c',
-  clientSecret: '6600e1f4a60646c4a04acff3b175885b',
-  redirectUri: 'http://localhost:4200/'
+  clientId : 'ADD SPOTIFY CLIENT ID',
+  clientSecret : 'ADD CLIENT SECRET',
+  redirectUri : 'ADD REDIRECT PATH',
 };
 
 /*
